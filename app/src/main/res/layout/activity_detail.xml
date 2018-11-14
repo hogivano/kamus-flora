@@ -10,14 +10,19 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/img"
-        android:src="@drawable/flower"
+        android:id="@+id/imgBack"
         android:scaleType="centerCrop"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/img"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
 
     <RelativeLayout
-        android:id="@+id/RlBtnImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/rlBtnImg"
         android:layout_above="@+id/cardView"
         android:layout_alignStart="@+id/cardView"
         android:background="#8C000000"
@@ -25,8 +30,8 @@
 
         <ImageView
             android:id="@+id/iconImg"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_image_black_24dp" />
         <TextView
@@ -37,14 +42,14 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iconImg"
             android:textColor="#99f2f2f2"
-            android:textSize="8sp" />
+            android:textSize="10sp" />
     </RelativeLayout>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="10dp"
+        app:cardElevation="6dp"
+        app:cardMaxElevation="7dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
@@ -58,11 +63,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Tumbuhan"
+                android:textSize="10sp"
+                android:textColor="#d6d6d6"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:id="@+id/tumbuhan"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/namaFlora"
                 android:text="Judul Ini Adalahh"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:padding="15dp"/>
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_below="@id/tumbuhan"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

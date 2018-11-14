@@ -1,62 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/whiteBg"
     tools:context="mobtek.kel1.kamusflora.MainActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/gradient_green"/>
-    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/observebleScrollView">
-        <RelativeLayout
+        android:id="@+id/appbar"
+        android:fitsSystemWindows="true">
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/rlObservable">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:src="@drawable/flower"
-                android:scaleType="centerCrop"/>
-        </RelativeLayout>
-    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:background="@color/white"
-        android:visibility="gone">
-    </SearchView>
-    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/swipyrefreshlayout"
-        app:srl_direction="bottom"
-        android:layout_below="@id/observebleScrollView">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:id="@+id/collapseToolbar"
+            app:collapsedTitleTextAppearance="@color/colorPrimary"
+            app:contentScrim="@color/colorAccent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
-                <android.support.v7.widget.RecyclerView
+                android:scaleType="fitXY">
+            </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/gradient_green"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:layout_collapseMode="pin"
+                app:theme="@style/Widget.AppCompat.ActionBar">
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rvFlora"
-                    android:nestedScrollingEnabled="false">
+                    android:id="@+id/rlObservable">
+                    <android.support.v7.widget.SearchView
+                        android:id="@+id/searchView"
+                        style="@style/SearchViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/switch1">
+                    </android.support.v7.widget.SearchView>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/switch1"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/swipyrefreshlayout"
+            app:srl_direction="bottom">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvFlora"
+                        android:nestedScrollingEnabled="false">
 
-                </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-        </ScrollView>
-    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-</RelativeLayout>
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </ScrollView>
+        </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

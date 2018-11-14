@@ -7,7 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,8 @@ public class ListBahasaAdapter extends RecyclerView.Adapter<ListBahasaAdapter.Ca
     private List<Flora> listFloraClone;
     private boolean cekSearch;
     private AppDatabase db;
+    private String url;
+    private String linkStorage;
 
     public ListBahasaAdapter(Context context, List<Flora> listFlora){
         this.context = context;
@@ -34,6 +42,8 @@ public class ListBahasaAdapter extends RecyclerView.Adapter<ListBahasaAdapter.Ca
         cekSearch = true;
         db = Room.databaseBuilder(context, AppDatabase.class, "flora")
                 .allowMainThreadQueries().build();
+        url = "https://raw.githubusercontent.com/Ayun1998/kamus-tumbuhan/master/";
+        linkStorage = "";
     }
 
     public void setCekSearch(boolean cekSearch){
@@ -58,6 +68,12 @@ public class ListBahasaAdapter extends RecyclerView.Adapter<ListBahasaAdapter.Ca
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         holder.nama.setText(listFlora.get(position).getNamaFlora());
         holder.latin.setText(listFlora.get(position).getNamaLatin());
+        Glide.with(context)
+                .load(url + listFlora.get(position).getId() + ".jpg")
+                .apply(new RequestOptions()
+                .placeholder(R.drawable.no_img)
+                .error(R.drawable.no_img))
+                .into(holder.img);
     }
 
     @Override
@@ -90,7 +106,60 @@ public class ListBahasaAdapter extends RecyclerView.Adapter<ListBahasaAdapter.Ca
 //                    filterResults.values = filteredList;
 //                }
                 else {
+//                    List<Flora> filteredList = new ArrayList<>();
+//                    for (Flora row : db.dao().getAll()) {
+//                        if (row.getNamaFlora().toLowerCase().contains(charString.toLowerCase()) || row.getNamaFlora().contains(charSequence)) {
+//                            filteredList.add(row);
+//                        }
+//                    }
+//                    filterResults.values = filteredList;
                     filterResults.values = db.dao().findByNamaFlora(charString);
+                }
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listFlora = (ArrayList<Flora>) filterResults.values;
+                // refresh the list with filtered data
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public Filter getFilterLatin() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults filterResults = new FilterResults();
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filterResults.values = listFloraClone;
+                }
+//                else {
+//                    List<Flora> filteredList = new ArrayList<>();
+//                    for (Flora row : listFloraClone) {
+//                        if (cekSearch){
+//                            if (row.getNamaFlora().toLowerCase().contains(charString.toLowerCase()) || row.getNamaFlora().contains(charSequence)) {
+//                                filteredList.add(row);
+//                            }
+//                        } else {
+//                            if (row.getNamaLatin().toLowerCase().contains(charString.toLowerCase()) || row.getNamaLatin().contains(charSequence)) {
+//                                filteredList.add(row);
+//                            }
+//                        }
+//                    }
+//                    filterResults.values = filteredList;
+//                }
+                else {
+//                    List<Flora> filteredList = new ArrayList<>();
+//                    for (Flora row : db.dao().getAll()) {
+//                        if (row.getNamaFlora().toLowerCase().contains(charString.toLowerCase()) || row.getNamaFlora().contains(charSequence)) {
+//                            filteredList.add(row);
+//                        }
+//                    }
+//                    filterResults.values = filteredList;
+                    filterResults.values = db.dao().findByNamaLatin(charString);
                 }
                 return filterResults;
             }
@@ -113,10 +182,12 @@ public class ListBahasaAdapter extends RecyclerView.Adapter<ListBahasaAdapter.Ca
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView nama;
         TextView latin;
+        ImageView img;
         public CategoryViewHolder(View itemView) {
             super(itemView);
             nama = (TextView) itemView.findViewById(R.id.nama);
             latin = (TextView) itemView.findViewById(R.id.latin);
+            img = (ImageView) itemView.findViewById(R.id.img);
         }
     }
 }
